@@ -1,10 +1,26 @@
 const BASE = 'http://localhost:3001'
-const PWD = 'popfluence2026'
+
+// Sauvegarde et lecture du token dans le navigateur
+export const saveToken = (token: string) => localStorage.setItem('admin_token', token)
+export const getToken = () => localStorage.getItem('admin_token')
+export const clearToken = () => localStorage.removeItem('admin_token')
 
 const headers = () => ({
   'Content-Type': 'application/json',
-  'x-admin-password': PWD,
+  'Authorization': `Bearer ${getToken()}`,
 })
+
+export async function login(password: string): Promise<boolean> {
+  const r = await fetch(`${BASE}/admin/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password }),
+  })
+  if (!r.ok) return false
+  const { token } = await r.json()
+  saveToken(token)
+  return true
+}
 
 export async function getStats() {
   const r = await fetch(`${BASE}/admin/stats`, { headers: headers() })
@@ -57,10 +73,26 @@ export async function deleteRestaurant(id: number) {
   })
 }
 
-export async function login(password: string): Promise<boolean> {
-  const r = await fetch(`${BASE}/admin/login`, {
-    method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ password }),
+export async function getOffres() {
+  const r = await fetch(`${BASE}/admin/offres`, { headers: headers() })
+  return r.json()
+}
+
+export async function addOffre(data: object) {
+  const r = await fetch(`${BASE}/admin/offres`, {
+    method: 'POST', headers: headers(), body: JSON.stringify(data),
   })
-  return r.ok
+  return r.json()
+}
+
+export async function updateOffre(id: number, data: object) {
+  await fetch(`${BASE}/admin/offres/${id}`, {
+    method: 'PUT', headers: headers(), body: JSON.stringify(data),
+  })
+}
+
+export async function deleteOffre(id: number) {
+  await fetch(`${BASE}/admin/offres/${id}`, {
+    method: 'DELETE', headers: headers(),
+  })
 }

@@ -4,20 +4,25 @@ import Dashboard from './pages/Dashboard'
 import Influenceurs from './pages/Influenceurs'
 import Candidatures from './pages/Candidatures'
 import Restaurants from './pages/Restaurants'
+import Offres from './pages/Offres'
+import { getToken, clearToken } from './api'
 import './App.css'
 
-type Page = 'dashboard' | 'influenceurs' | 'candidatures' | 'restaurants'
+type Page = 'dashboard' | 'influenceurs' | 'candidatures' | 'restaurants' | 'offres'
 
 const NAV = [
   { id: 'dashboard', label: '📊 Dashboard' },
   { id: 'influenceurs', label: '👤 Influenceurs' },
   { id: 'candidatures', label: '📋 Candidatures' },
   { id: 'restaurants', label: '🍽️ Restaurants' },
+  { id: 'offres', label: '🎁 Offres' },
 ] as const
 
 export default function App() {
-  const [auth, setAuth] = useState(false)
+  const [auth, setAuth] = useState(() => !!getToken())
   const [page, setPage] = useState<Page>('dashboard')
+
+  const logout = () => { clearToken(); setAuth(false) }
 
   if (!auth) return <Login onLogin={() => setAuth(true)} />
 
@@ -36,7 +41,7 @@ export default function App() {
             </button>
           ))}
         </nav>
-        <button className="logout-btn" onClick={() => setAuth(false)}>Déconnexion</button>
+        <button className="logout-btn" onClick={logout}>Déconnexion</button>
       </aside>
 
       <main className="main-content">
@@ -44,6 +49,7 @@ export default function App() {
         {page === 'influenceurs' && <Influenceurs />}
         {page === 'candidatures' && <Candidatures />}
         {page === 'restaurants' && <Restaurants />}
+        {page === 'offres' && <Offres />}
       </main>
     </div>
   )
