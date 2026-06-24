@@ -3,7 +3,7 @@ import { getStats } from '../api'
 
 type Stats = {
   influenceurs: { total: number; en_attente: number; valides: number; refuses: number }
-  candidatures: { total: number; en_attente: number; posts_publies: number }
+  candidatures: { total: number; en_attente: number; posts_publies: number; honorees: number }
   restaurants: { total: number; en_attente: number }
   offres: { total: number; en_attente: number }
   inscriptions_semaine: { jour: string; nb: number }[]
@@ -63,6 +63,11 @@ export default function Dashboard() {
           <span style={{ fontSize: '1.8rem', marginBottom: 4, display: 'block' }}>📸</span>
           <span className="kpi-num">{stats.candidatures.posts_publies}</span>
           <span className="kpi-label">Publications soumises</span>
+        </div>
+        <div className="kpi kpi-purple">
+          <span style={{ fontSize: '1.8rem', marginBottom: 4, display: 'block' }}>🏆</span>
+          <span className="kpi-num">{stats.candidatures.honorees ?? 0}</span>
+          <span className="kpi-label">Collaborations honorées</span>
         </div>
       </div>
 
