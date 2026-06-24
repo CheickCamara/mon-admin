@@ -53,6 +53,7 @@ export default function Candidatures() {
               <th>Réseau</th>
               <th>Abonnés</th>
               <th>Restaurant</th>
+              <th>Offre</th>
               <th>Statut</th>
               <th>Post publié</th>
               <th>Date</th>
@@ -61,7 +62,7 @@ export default function Candidatures() {
           </thead>
           <tbody>
             {affichées.length === 0 && (
-              <tr><td colSpan={8} className="empty">Aucune candidature.</td></tr>
+              <tr><td colSpan={9} className="empty">Aucune candidature.</td></tr>
             )}
             {affichées.map(c => (
               <tr key={c.id}>
@@ -69,6 +70,7 @@ export default function Candidatures() {
                 <td><span className="tag">{c.influenceurs?.reseau ?? '—'}</span></td>
                 <td>{c.influenceurs?.abonnes ? c.influenceurs.abonnes.toLocaleString('fr-FR') : '—'}</td>
                 <td>{c.restaurants?.nom ?? '—'}</td>
+                <td>{c.offres?.titre ?? '—'}</td>
                 <td><span className={`badge badge-${c.statut}`}>{STATUT_LABEL[c.statut] ?? c.statut}</span></td>
                 <td>
                   {c.lien_publication ? (
