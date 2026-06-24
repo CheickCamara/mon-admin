@@ -3,13 +3,13 @@ import { getCandidatures, updateCandidature } from '../api'
 
 type Candidature = {
   id: number
-  influenceur_nom: string
-  reseau: string
-  abonnes: number
-  restaurant_nom: string
   statut: string
-  post_publie: number
+  post_publie: boolean
+  lien_publication: string | null
   date_candidature: string
+  influenceurs: { nom: string; reseau: string; abonnes: number } | null
+  offres: { titre: string; contrepartie: string } | null
+  restaurants: { nom: string } | null
 }
 
 const STATUT_LABEL: Record<string, string> = {
@@ -69,20 +69,20 @@ export default function Candidatures() {
             )}
             {affichées.map(c => (
               <tr key={c.id}>
-                <td><strong>{c.influenceur_nom}</strong></td>
-                <td><span className="tag">{c.reseau}</span></td>
-                <td>{c.abonnes ? c.abonnes.toLocaleString('fr-FR') : '—'}</td>
-                <td>{c.restaurant_nom ?? '—'}</td>
+                <td><strong>{c.influenceurs?.nom ?? '—'}</strong></td>
+                <td><span className="tag">{c.influenceurs?.reseau ?? '—'}</span></td>
+                <td>{c.influenceurs?.abonnes ? c.influenceurs.abonnes.toLocaleString('fr-FR') : '—'}</td>
+                <td>{c.restaurants?.nom ?? '—'}</td>
                 <td><span className={`badge badge-${c.statut}`}>{STATUT_LABEL[c.statut] ?? c.statut}</span></td>
                 <td>
                   <button
                     className={`btn-action ${c.post_publie ? 'btn-green' : 'btn-gray'}`}
-                    onClick={() => togglePost(c.id, c.post_publie)}
+                    onClick={() => togglePost(c.id, c.post_publie ? 1 : 0)}
                   >
                     {c.post_publie ? '✅ Publié' : '⬜ Non publié'}
                   </button>
                 </td>
-                <td>{new Date(c.date_candidature).toLocaleDateString('fr-FR')}</td>
+                <td>{c.date_candidature ? new Date(c.date_candidature).toLocaleDateString('fr-FR') : '—'}</td>
                 <td className="actions">
                   {c.statut !== 'valide' && (
                     <button className="btn-action btn-green" onClick={() => setStatut(c.id, 'valide')}>Valider</button>
