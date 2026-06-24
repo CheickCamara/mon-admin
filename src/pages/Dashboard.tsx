@@ -66,7 +66,7 @@ export default function Dashboard() {
               <div className="bar-col" key={s.jour}>
                 <span className="bar-val">{s.nb}</span>
                 <div className="bar" style={{ height: `${(s.nb / maxNb) * 120}px` }} />
-                <span className="bar-label">{s.jour.slice(5)}</span>
+                <span className="bar-label">{s.jour ? s.jour.slice(5) : '—'}</span>
               </div>
             ))}
           </div>
