@@ -71,9 +71,9 @@ export default function Candidatures() {
               <tr key={c.id}>
                 <td><strong>{c.influenceur_nom}</strong></td>
                 <td><span className="tag">{c.reseau}</span></td>
-                <td>{c.abonnes.toLocaleString('fr-FR')}</td>
-                <td>{c.restaurant_nom}</td>
-                <td><span className={`badge badge-${c.statut}`}>{STATUT_LABEL[c.statut]}</span></td>
+                <td>{c.abonnes ? c.abonnes.toLocaleString('fr-FR') : '—'}</td>
+                <td>{c.restaurant_nom ?? '—'}</td>
+                <td><span className={`badge badge-${c.statut}`}>{STATUT_LABEL[c.statut] ?? c.statut}</span></td>
                 <td>
                   <button
                     className={`btn-action ${c.post_publie ? 'btn-green' : 'btn-gray'}`}
