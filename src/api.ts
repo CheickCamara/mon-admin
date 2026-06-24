@@ -1,4 +1,4 @@
-const BASE = 'http://localhost:3001'
+const BASE = 'https://mon-api-rqm7.onrender.com'
 
 // Sauvegarde et lecture du token dans le navigateur
 export const saveToken = (token: string) => localStorage.setItem('admin_token', token)
