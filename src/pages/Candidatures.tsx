@@ -6,6 +6,7 @@ type Candidature = {
   statut: string
   post_publie: boolean
   lien_publication: string | null
+  capture_story: string | null
   date_candidature: string
   influenceurs: { nom: string; reseau: string; abonnes: number; email: string } | null
   offres: { titre: string; contrepartie: string } | null
@@ -71,9 +72,9 @@ export default function Candidatures() {
                 <td><span className={`badge badge-${c.statut}`}>{STATUT_LABEL[c.statut] ?? c.statut}</span></td>
                 <td>
                   {c.lien_publication ? (
-                    <a href={c.lien_publication} target="_blank" rel="noreferrer" className="btn-action btn-green" style={{ textDecoration: 'none' }}>
-                      🔗 Voir le post
-                    </a>
+                    <a href={c.lien_publication} target="_blank" rel="noreferrer" className="btn-action btn-green" style={{ textDecoration: 'none' }}>🔗 Voir le post</a>
+                  ) : c.capture_story ? (
+                    <a href={c.capture_story} target="_blank" rel="noreferrer" className="btn-action btn-green" style={{ textDecoration: 'none' }}>📷 Voir la story</a>
                   ) : (
                     <span style={{ color: '#9ca3af', fontSize: '0.85rem' }}>En attente</span>
                   )}
