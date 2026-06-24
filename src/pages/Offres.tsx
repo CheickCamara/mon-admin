@@ -40,6 +40,7 @@ const CONTREPARTIE_LABEL: Record<string, string> = {
 }
 
 const STATUT_LABEL: Record<string, string> = {
+  en_attente_validation: '⏳ En attente',
   active: '✅ Active',
   en_pause: '⏸ En pause',
   cloturee: '🔒 Clôturée',
@@ -190,8 +191,11 @@ export default function Offres() {
                   {o.tranche_max ? ` – ${o.tranche_max.toLocaleString('fr-FR')}` : '+'}
                 </td>
                 <td>{o.valeur_indicative ? `${o.valeur_indicative} €` : '—'}</td>
-                <td><span className={`badge badge-${o.statut === 'active' ? 'valide' : 'en_attente'}`}>{STATUT_LABEL[o.statut]}</span></td>
+                <td><span className={`badge badge-${o.statut === 'active' ? 'valide' : o.statut === 'en_attente_validation' ? 'en_attente' : 'refuse'}`}>{STATUT_LABEL[o.statut] ?? o.statut}</span></td>
                 <td className="actions">
+                  {o.statut === 'en_attente_validation' && (
+                    <button className="btn-action btn-green" onClick={async () => { await updateOffre(o.id, { statut: 'active' }); load() }}>Valider</button>
+                  )}
                   <button className="btn-action btn-gray" onClick={() => openEdit(o)}>Modifier</button>
                   <button className="btn-action btn-red" onClick={() => remove(o.id)}>Supprimer</button>
                 </td>
