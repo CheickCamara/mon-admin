@@ -65,9 +65,9 @@ export default function Influenceurs() {
                 <td><strong>{i.nom}</strong></td>
                 <td>{i.email}</td>
                 <td><span className="tag">{i.reseau}</span></td>
-                <td>{i.abonnes.toLocaleString('fr-FR')}</td>
-                <td><span className={`badge badge-${i.statut}`}>{STATUT_LABEL[i.statut]}</span></td>
-                <td>{new Date(i.date_inscription).toLocaleDateString('fr-FR')}</td>
+                <td>{i.abonnes ? i.abonnes.toLocaleString('fr-FR') : '—'}</td>
+                <td><span className={`badge badge-${i.statut}`}>{STATUT_LABEL[i.statut] ?? i.statut}</span></td>
+                <td>{i.date_inscription ? new Date(i.date_inscription).toLocaleDateString('fr-FR') : '—'}</td>
                 <td className="actions">
                   {i.statut !== 'valide' && (
                     <button className="btn-action btn-green" onClick={() => action(i.id, 'valide')}>Valider</button>
