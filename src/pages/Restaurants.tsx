@@ -9,6 +9,15 @@ type Restaurant = {
   telephone: string
   statut: string
   info: string
+  siret?: string
+}
+
+const STATUT_LABEL: Record<string, string> = {
+  en_attente: '⏳ En attente',
+  Ouvert:     '✅ Validé',
+  Complet:    '🔴 Complet',
+  Pause:      '⏸ En pause',
+  Fermé:      '🔒 Fermé',
 }
 
 const EMPTY = { nom: '', adresse: '', description: '', telephone: '', statut: 'Ouvert', info: '' }
@@ -64,10 +73,11 @@ export default function Restaurants() {
               <label>Téléphone <input value={form.telephone} onChange={set('telephone')} /></label>
               <label>Statut
                 <select value={form.statut} onChange={set('statut')}>
-                  <option>Ouvert</option>
-                  <option>Complet</option>
-                  <option>Pause</option>
-                  <option>Fermé</option>
+                  <option value="en_attente">⏳ En attente</option>
+                  <option value="Ouvert">✅ Validé (Ouvert)</option>
+                  <option value="Complet">🔴 Complet</option>
+                  <option value="Pause">⏸ En pause</option>
+                  <option value="Fermé">🔒 Fermé</option>
                 </select>
               </label>
               <label>Info <textarea value={form.info} onChange={set('info')} /></label>
@@ -86,7 +96,7 @@ export default function Restaurants() {
             <tr>
               <th>Nom</th>
               <th>Adresse</th>
-              <th>Description</th>
+              <th>SIRET</th>
               <th>Téléphone</th>
               <th>Statut</th>
               <th>Actions</th>
@@ -100,10 +110,19 @@ export default function Restaurants() {
               <tr key={r.id}>
                 <td><strong>{r.nom}</strong></td>
                 <td>{r.adresse}</td>
-                <td>{r.description}</td>
-                <td>{r.telephone}</td>
-                <td><span className={`badge badge-${r.statut === 'Ouvert' ? 'valide' : 'refuse'}`}>{r.statut}</span></td>
+                <td>{r.siret ?? '—'}</td>
+                <td>{r.telephone ?? '—'}</td>
+                <td>
+                  <span className={`badge badge-${r.statut === 'Ouvert' ? 'valide' : r.statut === 'en_attente' ? 'en_attente' : 'refuse'}`}>
+                    {STATUT_LABEL[r.statut] ?? r.statut}
+                  </span>
+                </td>
                 <td className="actions">
+                  {r.statut === 'en_attente' && (
+                    <button className="btn-action btn-green" onClick={async () => { await updateRestaurant(r.id, { statut: 'Ouvert' }); load() }}>
+                      Valider
+                    </button>
+                  )}
                   <button className="btn-action btn-gray" onClick={() => openEdit(r)}>Modifier</button>
                   <button className="btn-action btn-red" onClick={() => remove(r.id)}>Supprimer</button>
                 </td>
