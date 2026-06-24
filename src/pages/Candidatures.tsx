@@ -7,7 +7,7 @@ type Candidature = {
   post_publie: boolean
   lien_publication: string | null
   date_candidature: string
-  influenceurs: { nom: string; reseau: string; abonnes: number } | null
+  influenceurs: { nom: string; reseau: string; abonnes: number; email: string } | null
   offres: { titre: string; contrepartie: string } | null
   restaurants: { nom: string } | null
 }
@@ -27,11 +27,6 @@ export default function Candidatures() {
 
   const setStatut = async (id: number, statut: string) => {
     await updateCandidature(id, { statut })
-    load()
-  }
-
-  const togglePost = async (id: number, actuel: number) => {
-    await updateCandidature(id, { post_publie: actuel === 0 })
     load()
   }
 
@@ -75,12 +70,13 @@ export default function Candidatures() {
                 <td>{c.restaurants?.nom ?? '—'}</td>
                 <td><span className={`badge badge-${c.statut}`}>{STATUT_LABEL[c.statut] ?? c.statut}</span></td>
                 <td>
-                  <button
-                    className={`btn-action ${c.post_publie ? 'btn-green' : 'btn-gray'}`}
-                    onClick={() => togglePost(c.id, c.post_publie ? 1 : 0)}
-                  >
-                    {c.post_publie ? '✅ Publié' : '⬜ Non publié'}
-                  </button>
+                  {c.lien_publication ? (
+                    <a href={c.lien_publication} target="_blank" rel="noreferrer" className="btn-action btn-green" style={{ textDecoration: 'none' }}>
+                      🔗 Voir le post
+                    </a>
+                  ) : (
+                    <span style={{ color: '#9ca3af', fontSize: '0.85rem' }}>En attente</span>
+                  )}
                 </td>
                 <td>{c.date_candidature ? new Date(c.date_candidature).toLocaleDateString('fr-FR') : '—'}</td>
                 <td className="actions">
