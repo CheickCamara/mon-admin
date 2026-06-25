@@ -10,7 +10,7 @@ const headers = () => ({
   'Authorization': `Bearer ${getToken()}`,
 })
 
-console.log('coucou', BASE)
+console.log('coucou Cheick', BASE)
 export async function login(password: string): Promise<boolean> {
   const r = await fetch(`${BASE}/admin/login`, {
     method: 'POST',
