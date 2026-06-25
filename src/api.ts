@@ -1,4 +1,4 @@
-const BASE = import.meta.env.VITE_BASE_URL
+const BASE = import.meta.env.VITE_BACKURL_URL
 
 // Sauvegarde et lecture du token dans le navigateur
 export const saveToken = (token: string) => localStorage.setItem('admin_token', token)
@@ -10,6 +10,7 @@ const headers = () => ({
   'Authorization': `Bearer ${getToken()}`,
 })
 
+console.log('coucou', BASE)
 export async function login(password: string): Promise<boolean> {
   const r = await fetch(`${BASE}/admin/login`, {
     method: 'POST',
