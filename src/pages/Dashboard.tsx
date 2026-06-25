@@ -25,7 +25,7 @@ function ActionBadge({ count }: { count: number }) {
 export default function Dashboard() {
   const [stats, setStats] = useState<Stats | null>(null)
 
-  useEffect(() => { getStats().then(setStats) }, [])
+  useEffect(() => { getStats().then(data => { if (data?.influenceurs) setStats(data) }) }, [])
 
   if (!stats) return <p className="loading">Chargement…</p>
 

@@ -24,6 +24,7 @@ export async function login(password: string): Promise<boolean> {
 
 export async function getStats() {
   const r = await fetch(`${BASE}/admin/stats`, { headers: headers() })
+  if (r.status === 401) { clearToken(); window.location.reload(); return null }
   return r.json()
 }
 
