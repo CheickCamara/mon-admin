@@ -1,4 +1,4 @@
-const BASE = 'https://mon-api-rqm7.onrender.com'
+const BASE = import.meta.env.VITE_BASE_URL
 
 // Sauvegarde et lecture du token dans le navigateur
 export const saveToken = (token: string) => localStorage.setItem('admin_token', token)
