@@ -1,4 +1,4 @@
-const BASE = import.meta.env.VITE_BACKURL_URL
+const BASE = import.meta.env.VITE_URL_BACKEND
 
 // Sauvegarde et lecture du token dans le navigateur
 export const saveToken = (token: string) => localStorage.setItem('admin_token', token)
